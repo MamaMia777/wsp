@@ -157,7 +157,7 @@ export default function CategoryPageComponent({
 
   useEffect(() => {
     mutate();
-  }, [categoryId]);
+  }, [categoryId, mutate]);
 
   useEffect(() => {
     if (!categoryData) return;
