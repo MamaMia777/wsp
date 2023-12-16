@@ -18,7 +18,7 @@ export class ConfigService implements OnModuleInit {
   }
   async getConfig() {
     try {
-      return await this.databaseService.config.findFirst();
+      return this.configFile;
     } catch (error) {
       throw new InternalServerErrorException(
         'Failed to retrieve authentication data',
