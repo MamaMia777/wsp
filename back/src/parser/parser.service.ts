@@ -213,6 +213,13 @@ export class ParserService {
             options,
           });
         }
+
+        if (i !== numberOfPageIterations - 1) {
+          await page.click(
+            '#ctl00_uxMainContent_uxFilteredProductListControl_uxPagingControl_uxNextPage',
+          );
+          await page.waitForNavigation();
+        }
       }
       Logger.log(`[INFO] Parsed category ${categoryId}]`);
       return {

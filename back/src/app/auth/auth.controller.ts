@@ -1,5 +1,6 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { GoogleAuthGuard } from './utils/guards';
+// @ts-ignore
+import { GoogleAuthGuard } from './utils/Guards';
 
 @Controller('auth')
 export class AuthController {
