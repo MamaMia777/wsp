@@ -77,6 +77,7 @@ export class ParserService {
   public async parseCategory(categoryId: string): Promise<ICategory> {
     const browser = await puppeteer.launch({
       headless: 'new',
+      args: ['--no-sandbox'],
     });
     try {
       const eisData: Array<IParseCategoryResult> = [];
