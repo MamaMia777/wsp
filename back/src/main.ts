@@ -10,7 +10,7 @@ async function bootstrap() {
     // origin: ['http://localhost:3000', 'https://wsp.company'], // Update with your frontend URL
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // Enable credentials (cookies, authorization headers, etc.)
+    credentials: false, // Enable credentials (cookies, authorization headers, etc.)
   };
   app.enableCors(corsOptions);
   app.setGlobalPrefix('api');

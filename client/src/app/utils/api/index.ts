@@ -13,7 +13,7 @@ const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiReturnType =
       baseURL: 'https://api.wsp.company/api/',
       headers: {
       },
-      withCredentials: true
+      withCredentials: false
     })
 
   const api = {
