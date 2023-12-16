@@ -1,22 +1,22 @@
 import { Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 import * as fs from 'fs';
-import {
-  LOGIN_BUTTON_SELECTOR_ID,
-  LOGIN_CODE_INPUT,
-  LOGIN_CODE_SPAN,
-  LOGIN_CONTINUE_BUTTON,
-  LOGIN_FINAL_BUTTON,
-  LOGIN_PASSWORD_INPUT_SELECTOR_ID,
-  LOGIN_USERNAME_INPUT_SELECTOR_ID,
-} from 'src/common/constants';
 const SELLERS_PER_PAGE = 50;
 import { ConfigService } from 'src/config/config.service';
 import {
-  IPrice,
-  IOption,
+  LOGIN_BUTTON_SELECTOR_ID,
+  LOGIN_USERNAME_INPUT_SELECTOR_ID,
+  LOGIN_PASSWORD_INPUT_SELECTOR_ID,
+  LOGIN_CONTINUE_BUTTON,
+  LOGIN_CODE_SPAN,
+  LOGIN_CODE_INPUT,
+  LOGIN_FINAL_BUTTON,
+} from 'src/common/constants';
+import {
   ICategory,
   IParseCategoryResult,
+  IPrice,
+  IOption,
 } from 'src/common/interfaces';
 @Injectable()
 export class ParserService {
