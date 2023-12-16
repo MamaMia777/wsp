@@ -157,7 +157,7 @@ export default function CategoryPageComponent({
 
   useEffect(() => {
     mutate();
-  }, [categoryId, mutate]);
+  }, [categoryId]);
 
   useEffect(() => {
     if (!categoryData) return;
@@ -202,7 +202,7 @@ export default function CategoryPageComponent({
       ZEMGALE: getRegionData("ZEMGALE"),
     };
     setOveralData(newOveralData);
-  }, [ourRecordCopy, selectedCombination, getRegionData]);
+  }, [ourRecordCopy, selectedCombination]);
 
   return (
     <section className="page flex flex-col h-full py-4">
