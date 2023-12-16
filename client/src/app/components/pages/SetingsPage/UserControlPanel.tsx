@@ -40,7 +40,7 @@ const UserControlPanel = () => {
     <FrameWrapper>
       <h1>Users</h1>
       {data?.map((user) => (
-        <UserRecord email={user.email} role={user.role} />
+        <UserRecord key={user.email} email={user.email} role={user.role} />
       ))}
       <Button className="w-full mt-4 ">+ Add user</Button>
     </FrameWrapper>
