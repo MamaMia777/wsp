@@ -15,7 +15,6 @@ interface IProps {
     React.SetStateAction<Array<ISelectedCombination>>
   >;
 }
-
 interface IOptionTableRowProps {
   name: string;
   ourPrice: number;
@@ -77,7 +76,7 @@ const OptionTableRow: React.FC<IOptionTableRowProps> = ({
         ([parent, child]) => parent === parrentIndex && child === childrenIndex
       );
     });
-  }, [selectedCombination]);
+  }, [selectedCombination, parrentIndex, childrenIndex]);
 
   return (
     <div
@@ -132,6 +131,7 @@ const OptionTable: React.FC<IProps> = ({
   setSelectedCombination,
 }) => {
   if (!data) return <h1>No data</h1>;
+
   return (
     <div className="w-full">
       {data.map((option, parrentIndex) => {

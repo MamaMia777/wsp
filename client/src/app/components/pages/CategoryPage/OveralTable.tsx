@@ -1,4 +1,4 @@
-import { IRegion, inputNumberValidator } from "@wsp/app/utils";
+import { IRegion } from "@wsp/app/utils";
 import Image from "next/image";
 import { useMemo } from "react";
 interface IProps {
