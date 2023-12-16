@@ -1,0 +1,72 @@
+{
+  "options": [
+    {
+      "name": "Galda aizvietošana ar lielāka izmēra galdu",
+      "subOptions": [
+        { "name": "800x1400 mm: *", "price": 3, "lowestPrice": 0 },
+        { "name": "800x1600 mm: *", "price": 6, "lowestPrice": 0 },
+        { "name": "800x1800 mm: *", "price": 24, "lowestPrice": 18 },
+        { "name": "800x2000 mm: *", "price": 24, "lowestPrice": 0 },
+        { "name": "900x1400 mm: *", "price": 20, "lowestPrice": 0 },
+        { "name": "900x1600 mm: *", "price": 24, "lowestPrice": 10 },
+        { "name": "900x1800 mm: *", "price": 65, "lowestPrice": 24 },
+        { "name": "900x2000 mm: *", "price": 85, "lowestPrice": 24 }
+      ]
+    },
+    {
+      "name": "Priekšējais nosegpanelis",
+      "subOptions": [
+        {
+          "name": "A - vismaz 320 mm, G - visā galda garumā, vismaz līdz galda kājām: *",
+          "price": 40,
+          "lowestPrice": 20
+        },
+        {
+          "name": "perforēta tērauda loksne, krāsots ar pulverkrāsu, h - 400 mm: *",
+          "price": 60,
+          "lowestPrice": 44
+        }
+      ]
+    },
+    {
+      "name": "Pamataprīkojumā esošās krāsas aizvietošana ar citu krāsu",
+      "subOptions": [
+        { "name": "tumša koka imitācija: *", "price": 10, "lowestPrice": 0 },
+        { "name": "balts: *", "price": 10, "lowestPrice": 0 },
+        { "name": "pelēks: *", "price": 10, "lowestPrice": 0 },
+        { "name": "tumši pelēks (antracīts): *", "price": 10, "lowestPrice": 0 }
+      ]
+    },
+    {
+      "name": "Vadu kabeļu grozs/kanāls (vismaz 70 cm garš), metāla, pulvertohnoloģijā krāsots un vertikālo vadu kanālu: *",
+      "price": 15,
+      "lowestPrice": 0
+    },
+    {
+      "name": "Esošā 1 motora aizvietošana ar 2 motoriem, ar kopējo celtspēju - vismaz 120 kg: *",
+      "price": 10,
+      "lowestPrice": 0
+    },
+    {
+      "name": "Tastatūras paliktnis, piestiprināts zem galda virsmas: *",
+      "price": 15,
+      "lowestPrice": 10
+    },
+    {
+      "name": "Sadaloša galda starpsiena ar metāla turētājiem, izmēri: A - vismaz 350 mm virs galda virsmas, vismaz 250 mm - zem galda virsmas, platumā - pilnā galda garumā, materiāls identisks galda materiālam: *",
+      "price": 70,
+      "lowestPrice": 61
+    },
+    {
+      "name": "Virsmas materiāla biezums vismaz 25 mm: *",
+      "price": 0,
+      "lowestPrice": 0
+    },
+    {
+      "name": "Sistēmbloka turētājs, sistēmbloka novietošanai zem galda: *",
+      "price": 20.01,
+      "lowestPrice": 20
+    }
+  ],
+  "maxTotalSum": 1481.82
+}
