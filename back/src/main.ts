@@ -7,7 +7,8 @@ import * as passport from 'passport';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {});
   const corsOptions: CorsOptions = {
-    origin: ['http://localhost:3000', 'https://wsp.company'], // Update with your frontend URL
+    // origin: ['http://localhost:3000', 'https://wsp.company'], // Update with your frontend URL
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Enable credentials (cookies, authorization headers, etc.)
   };
