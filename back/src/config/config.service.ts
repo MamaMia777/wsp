@@ -28,9 +28,10 @@ export class ConfigService implements OnModuleInit {
 
   async updateConfig(data: Prisma.ConfigCreateInput) {
     try {
-      return await this.databaseService.config.update({
+      return await this.databaseService.config.upsert({
         where: { id: 1 },
-        data: data,
+        create: data,
+        update: data,
       });
     } catch (error) {
       throw new InternalServerErrorException(
