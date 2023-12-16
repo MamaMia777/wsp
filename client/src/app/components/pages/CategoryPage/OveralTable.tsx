@@ -9,12 +9,11 @@ const OveralTable: React.FC<IProps> = ({
   data,
   handleRegionBasePriceChange,
 }) => {
-  if (!data) return null;
-  const regions = Object.keys(data);
-
   const memoizedHandleRegionBasePriceChange = useMemo(() => {
     return handleRegionBasePriceChange;
   }, [handleRegionBasePriceChange]);
+  if (!data) return null;
+  const regions = Object.keys(data);
 
   return (
     <div className="w-fit">
