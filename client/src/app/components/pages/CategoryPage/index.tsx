@@ -202,7 +202,7 @@ export default function CategoryPageComponent({
       ZEMGALE: getRegionData("ZEMGALE"),
     };
     setOveralData(newOveralData);
-  }, [ourRecordCopy, selectedCombination]);
+  }, [ourRecordCopy, selectedCombination, getRegionData]);
 
   return (
     <section className="page flex flex-col h-full py-4">
