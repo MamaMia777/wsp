@@ -45,7 +45,7 @@ const MainPage = () => {
       <div>
         <div className="w-full flex justify-between items-center">
           <h1>Overview</h1>
-          <Button onClick={() => setAddCategory(true)}>
+          <Button onClick={() => setAddCategory(true)} className="mt-2">
             <Image
               className=" fill-[white]"
               src={"/ui/Plus.svg"}
