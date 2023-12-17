@@ -1,5 +1,4 @@
-import { ISelectedCombination } from "@wsp/app/components/pages";
-import { IOption } from "@wsp/app/utils";
+import { IOption, ISelectedCombination } from "@wsp/app/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 

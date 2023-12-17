@@ -20,9 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} h-screen`}>
         <Provider>
-          <main className="page text-primary font-medium text-small relative flex flex-col gap-2 h-full">
+          <main className=" text-primary font-medium text-small">
             <Header />
-            <div className="flex-1 ">{children}</div>
+            <section>{children}</section>
           </main>
         </Provider>
       </body>

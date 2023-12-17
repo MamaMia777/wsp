@@ -4,6 +4,7 @@ import {
   ICategoryFull,
   IRegion,
   IRegionData,
+  ISelectedCombination,
   ISupplierData,
   calculateOurCombinationPrice,
   findMinimalCombinationPrice,
@@ -13,7 +14,6 @@ import {
 import { useEffect, useState } from "react";
 import CategoryHeader from "./CategoryHeader";
 import OveralTable from "./OveralTable";
-import { ISelectedCombination } from "@wsp/app/components/pages";
 import { useMutation } from "react-query";
 import Api from "@wsp/app/utils/api";
 import Image from "next/image";
@@ -205,7 +205,7 @@ export default function CategoryPageComponent({
   }, [ourRecordCopy, selectedCombination]);
 
   return (
-    <section className="page flex flex-col h-full py-4">
+    <div className="flex flex-col h-full py-4">
       <CategoryHeader categoryId={categoryId} name={categoryData?.name ?? ""} />
       {isLoading ||
       isError ||
@@ -214,7 +214,7 @@ export default function CategoryPageComponent({
       !overalData ? (
         <SkeletonFrame isLoading={isLoading} isError={isError} />
       ) : (
-        <div className="w-full grid grid-cols-2  flex-1 gap-[4rem]">
+        <div className="w-full grid grid-cols-2 flex-1 gap-[4rem]">
           {ourRecordCopy.options.length > 0 && (
             <OptionTable
               data={ourRecordCopy.options}
@@ -229,6 +229,6 @@ export default function CategoryPageComponent({
           />
         </div>
       )}
-    </section>
+    </div>
   );
 }

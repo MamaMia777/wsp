@@ -9,8 +9,7 @@ export type ApiReturnType = {
 };
 const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiReturnType => {
   const instance = axios.create({
-      // baseURL: 'http://localhost:3001/api/',
-      baseURL: 'https://api.wsp.company/api/',
+      baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api/' : 'https://api.wsp.company/api/',
       headers: {
       },
       withCredentials: false

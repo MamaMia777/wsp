@@ -19,7 +19,7 @@ export class ProductService {
         const fetchedTime = existingCategory.updateAt;
         const now = new Date();
         const timeDifference = now.getTime() - fetchedTime.getTime();
-        const isOlder = timeDifference / (1000 * 60) > 1000;
+        const isOlder = timeDifference / (1000 * 60) > 3;
 
         if (isOlder) {
           try {

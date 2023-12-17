@@ -1,5 +1,5 @@
-import { ISelectedCombination } from '../components/pages';
-import { IMarketMin, ISupplierData } from './interfaces';
+
+import { IMarketMin, ISelectedCombination, ISupplierData } from './interfaces';
 
 export * from './interfaces'
 export * from './Providers'

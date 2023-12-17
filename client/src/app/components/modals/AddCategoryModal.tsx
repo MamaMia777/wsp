@@ -2,9 +2,8 @@
 import { Button } from "@wsp/app/ui";
 import Api from "@wsp/app/utils/api";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "react-query";
-import { redirect } from "next/navigation";
 
 const AddCategoryModal = ({
   onClose,
@@ -18,7 +17,7 @@ const AddCategoryModal = ({
   const { mutate, isLoading } = useMutation(
     () => Api().categories.fetchCategory(categoryId.toUpperCase()),
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         refetch({
           queryKey: "categories",
         });
@@ -36,22 +35,14 @@ const AddCategoryModal = ({
   };
 
   return (
-    <div className="w-[300px] p-4 shadow-md flex flex-col items-center gap-4 justify-center  rounded-md">
-      <Image
-        width={20}
-        height={20}
-        onClick={() => {
-          isLoading ? null : onClose();
-        }}
-        alt="wsp"
-        src={"/ui/Cross.svg"}
-        className=" self-end cursor-pointer hover:scale-110 transition-all duration-75 hover:bg-accent"
-      />
+    <div className="flex flex-col items-center justify-center min-w-[300px]">
+      <p className="font-bold text-[1rem] self-start">Adding category</p>
+      <span className="self-start">Jānorāda produkta precīza kategorija.</span>
       <input
         type="text"
         value={categoryId}
         onChange={(e) => setCategoryId(e.target.value)}
-        className="bg-accent w-full p-4 text-[1.1rem] text-[black]"
+        className="w-full p-2 text-[1rem] text-[black] my-[1rem] border border-[gray] rounded-md"
         placeholder="Category ID"
       />
       {isLoading ? (

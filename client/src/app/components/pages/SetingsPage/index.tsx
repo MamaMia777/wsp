@@ -2,9 +2,9 @@ import UserControlPanel from "./UserControlPanel";
 
 const SettingPage = () => {
   return (
-    <section className="page pt-3">
+    <div>
       <UserControlPanel />
-    </section>
+    </div>
   );
 };
 export default SettingPage;

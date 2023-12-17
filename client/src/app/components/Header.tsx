@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <>
       {!hideHeader && (
-        <div className=" w-full flex justify-between py-3 border-b-2 border-b-[solid red] page h-[60px]">
+        <header className=" w-full flex justify-between py-3 border-b-2 border-b-[solid red] h-[60px]">
           <div className="flex gap-6 items-center">
             <span className="font-bold text-[black]">WSP/eis</span>
             {LINKS.map((el) => (
@@ -41,7 +41,7 @@ const Header = () => {
               alt="wsp"
             />
           </div>
-        </div>
+        </header>
       )}
     </>
   );
