@@ -51,7 +51,7 @@ const OptionTableRow: React.FC<IOptionTableRowProps> = ({
   name = name.replace(/\([^)]*\)/g, "");
 
   const handleOptionClick = () => {
-    if (singleOption) return;
+    // if (singleOption) return;
     setSelectedCombination((prev) => {
       const isDuplicate = prev.some(
         ([parent, child]) => parent === parrentIndex && child === childrenIndex
@@ -135,7 +135,7 @@ const OptionTable: React.FC<IProps> = ({
     <div className="w-full">
       {data.map((option, parrentIndex) => {
         return (
-          <div key={parrentIndex}>
+          <div key={parrentIndex} className="mb-4">
             {option.name && option.subOptions && (
               <div
                 key={option.name}

@@ -3,7 +3,7 @@ import Image from "next/image";
 const LoginPage = () => {
   return (
     <section
-      className="w-screen h-screen relative grid grid-cols-2"
+      className="fixed top-0 left-0 w-full h-screen  grid grid-cols-2"
       style={{ position: "fixed" }}
     >
       <div className="bg-[#18181b] p-5 flex flex-col justify-between">

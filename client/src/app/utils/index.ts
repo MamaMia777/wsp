@@ -73,8 +73,8 @@ export const findMinimalCombinationPrice = (
       const basePrice = supplier.priceList.find(
         (el) => el.city === region
       )!.price;
-      const singleOptionSum = supplier.options.filter((el) => !el.subOptions).reduce((acc, el) => acc + el.price!, 0);
-      totalCombinationPrice += singleOptionSum + basePrice;
+      // const singleOptionSum = supplier.options.filter((el) => !el.subOptions).reduce((acc, el) => acc + el.price!, 0);
+      totalCombinationPrice += basePrice;
   
       for (const option of combination) {
         const [parentId, childrenId] = option;
@@ -109,7 +109,7 @@ export const calculateOurCombinationPrice = (
           ? ourOptions[parrentId].subOptions![childrenId].price!
           : ourOptions[parrentId].price!;
     }
-    totalOurCombinationPrice += ourRecord.options.filter((el) => !el.subOptions).reduce((acc, el) => acc + el.price!, 0);
+    // totalOurCombinationPrice += ourRecord.options.filter((el) => !el.subOptions).reduce((acc, el) => acc + el.price!, 0);
     return totalOurCombinationPrice
 }
 
