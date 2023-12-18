@@ -104,7 +104,18 @@ export class ParserService {
       );
 
       for (let i = 0; i < numberOfPageIterations; i++) {
+        // check for blocked suppliers
+        const blockedSuppliersRowIndex = await page.evaluate(() => {
+          const rows = document.querySelectorAll(
+            '[id$=_uxIconSupplierFaIsBlocked]',
+          );
+          return Array.from(rows).map((el) =>
+            Number(el.id.match(/_ctl(\d+)_uxIconSupplierFaIsBlocked/)[1]),
+          );
+        });
+
         for (let k = 2; k <= numberOfSellers - i * SELLERS_PER_PAGE + 1; k++) {
+          if (blockedSuppliersRowIndex.includes(k)) continue;
           await this.performPostBack(page, k);
           await page.waitForNavigation();
           const companyName = await page.evaluate(() => {
