@@ -18,6 +18,9 @@ export interface ISupplierData {
   options: Array<IOption>;
 }
 
+export interface IChangeEisData extends ISupplierData {
+  categoryId: string;
+}
 export interface IPrice {
   city: string;
   price: number;

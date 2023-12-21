@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import {ICategoryBasic } from '..';
+import {ICategoryBasic, IChangeEisData, ISupplierData } from '..';
 
 export const categoryApi = (instance: AxiosInstance) => ({
   async getCategories() {
@@ -7,6 +7,13 @@ export const categoryApi = (instance: AxiosInstance) => ({
       '/products',
     );
     return data;
+  },
+  async updateCategoryInEis(data: IChangeEisData) {
+    const { data: responseData } = await instance.post<IChangeEisData, any>(
+      '/products/eis',
+      data,
+    );
+    return responseData;
   },
   async fetchCategory(categoryId: string){
     const { data } = await instance.post<null, {data: any}>(

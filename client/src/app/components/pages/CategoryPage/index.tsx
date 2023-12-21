@@ -180,6 +180,7 @@ export default function CategoryPageComponent({
 
   useEffect(() => {
     if (!categoryData) return;
+    console.log(categoryData);
     const ourRecord = categoryData.data.find((el) =>
       el.companyName.toLowerCase().includes("wsp")
     );
@@ -236,7 +237,11 @@ export default function CategoryPageComponent({
 
   return (
     <div className="flex flex-col h-full py-4">
-      <CategoryHeader categoryId={categoryId} name={categoryData?.name ?? ""} />
+      <CategoryHeader
+        categoryId={categoryId}
+        name={categoryData?.name ?? ""}
+        ourRecordData={ourRecordCopy!}
+      />
       {isLoading ||
       isError ||
       !categoryData ||
