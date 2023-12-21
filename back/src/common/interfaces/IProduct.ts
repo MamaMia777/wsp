@@ -11,5 +11,9 @@ export interface IParseCategoryResult {
   companyName: string;
   priceList: Array<IPrice>;
   options: Array<IOption>;
-  discounts: Map<number, number>;
+  discounts: Array<IDiscount | null>;
+}
+interface IDiscount {
+  amount: string;
+  discount: string;
 }

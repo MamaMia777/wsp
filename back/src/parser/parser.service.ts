@@ -144,19 +144,20 @@ export class ParserService {
             });
           }
           const discounts = await page.evaluate(() => {
-            const discounts = new Map<number, number>();
             const rows = document.querySelectorAll(
               '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxDiscounts > tbody > tr:not(.contenttablehead)',
             );
-            Array.from(rows).forEach((row) => {
+            return Array.from(rows).map((row) => {
               const tds = row.querySelectorAll('td');
-              const amount = Number(tds[0].textContent.trim());
-              const discount = Number(
-                tds[1].querySelector('span').textContent.trim(),
-              );
-              if (amount > 0 && discount > 0) discounts.set(amount, discount);
+              const amount = Number(tds[0].innerText);
+              const discount = Number(Number(tds[1].innerText));
+              if (amount > 0 && discount > 0) {
+                return {
+                  amount: amount.toString(),
+                  discount: discount.toString(),
+                };
+              }
             });
-            return discounts;
           });
           const priceList: Array<IPrice> = await page.evaluate(
             (CATEGORY_POPUP_PRICETABLE) => {
