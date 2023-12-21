@@ -41,7 +41,11 @@ const AddCategoryModal = ({
       <input
         type="text"
         value={categoryId}
-        onChange={(e) => setCategoryId(e.target.value)}
+        onChange={(e) => {
+          const allowedPattern = /^(?!.*\.{2})[a-zA-Z0-9.]+$/;
+          if (allowedPattern.test(e.target.value) || e.target.value === "")
+            setCategoryId(e.target.value);
+        }}
         className="w-full p-2 text-[1rem] text-[black] my-[1rem] border border-[gray] rounded-md"
         placeholder="Category ID"
       />
