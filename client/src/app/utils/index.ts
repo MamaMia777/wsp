@@ -61,7 +61,8 @@ export const findRegionsMinimalPriceSupplier = (
 export const findMinimalCombinationPrice = (
     allRecords: Array<ISupplierData>,
     combination: Array<ISelectedCombination>,
-    region: string
+    region: string,
+    quantity: number
   ): IMarketMin => {
     let minimalCombinationPrice: IMarketMin = {
       price: Number.POSITIVE_INFINITY,
@@ -75,6 +76,8 @@ export const findMinimalCombinationPrice = (
       )!.price;
       // const singleOptionSum = supplier.options.filter((el) => !el.subOptions).reduce((acc, el) => acc + el.price!, 0);
       totalCombinationPrice += basePrice;
+
+      const discountPerQuantity = supplier.discounts.find((el) => el && +el.amount === quantity)?.discount ?? 0;
   
       for (const option of combination) {
         const [parentId, childrenId] = option;
@@ -84,11 +87,13 @@ export const findMinimalCombinationPrice = (
             : supplier.options[parentId].price!;
         totalCombinationPrice += optionPrice;
       }
-      if (totalCombinationPrice < minimalCombinationPrice.price) {
+      const totalCombinationPriceWithDiscount = totalCombinationPrice * (1 - +discountPerQuantity / 100);
+      if (totalCombinationPriceWithDiscount < minimalCombinationPrice.price) {
         minimalCombinationPrice = {
-          price: totalCombinationPrice,
+          price: totalCombinationPriceWithDiscount,
           supplier: supplier.companyName,
           basePrice,
+          discountPerQuantity: +discountPerQuantity,
         };
       }
     }
@@ -115,10 +120,14 @@ export const calculateOurCombinationPrice = (
 
 export const inputNumberValidator = (e: React.ChangeEvent<HTMLInputElement>) => {
   const value = e.target.value;
-  const allowedPattern = /^[\d,.\b]+$/;
+  if (value.length > 0 && value.charAt(0) === '.') return false
+  for (const char of value) {
 
-  if (!allowedPattern.test(value)) e.preventDefault()
-  return value
-
+    if (!/^\d|\.$/.test(char)) {
+      return false;
+    }
+  }
+  const dotCount = value.split(".").length - 1;
+  return dotCount <= 1;
   // Check if the input matches the allowed pa
 }

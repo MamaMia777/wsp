@@ -14,7 +14,7 @@ export interface ICategoryFull {
 export interface ISupplierData {
   companyName: string;
   priceList: Array<IPrice>;
-  discounts: Array<Map<number, number>>
+  discounts: Array<IDiscount>
   options: Array<IOption>;
 }
 
@@ -34,7 +34,8 @@ export interface IOption{
 export interface IMarketMin{
   price: number,
   supplier: string,
-  basePrice?: number
+  basePrice?: number,
+  discountPerQuantity?:number
 }
 
 export interface IRegion {
@@ -50,5 +51,8 @@ export interface IRegionData {
   marketMinPrice: IMarketMin;
   combinationPrice: number;
   combinationMarketMinPrice: IMarketMin;
-  discounts: Array<Map<number, number>>;
+}
+export interface IDiscount {
+  amount: string;
+  discount: string;
 }

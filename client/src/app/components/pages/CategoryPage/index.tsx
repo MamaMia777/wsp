@@ -2,6 +2,7 @@
 import OptionTable from "./OptionTable";
 import {
   ICategoryFull,
+  IDiscount,
   IRegion,
   IRegionData,
   ISelectedCombination,
@@ -17,6 +18,7 @@ import OveralTable from "./OveralTable";
 import { useMutation } from "react-query";
 import Api from "@wsp/app/utils/api";
 import Image from "next/image";
+import DiscountTable from "./DiscountTable";
 
 const SkeletonFrame = ({
   isLoading,
@@ -73,6 +75,8 @@ export default function CategoryPageComponent({
   categoryId: string;
 }) {
   const [categoryData, setCategoryData] = useState<ICategoryFull | null>(null);
+  const [discountsQuantity, setDiscountsQuantity] = useState<Array<number>>([]);
+  const [activeQuantity, setActiveQuantity] = useState<number>(1);
   const [overalData, setOveralData] = useState<IRegion | null>(null);
   const [ourRecordCopy, setOurRecordCopy] = useState<ISupplierData | null>();
   const [selectedCombination, setSelectedCombination] = useState<
@@ -83,11 +87,10 @@ export default function CategoryPageComponent({
     () => Api().categories.fetchCategory(categoryId.toUpperCase()),
     {
       onSuccess: (data) => {
-        console.log(data);
         setCategoryData(data);
       },
       onError: (err) => {
-        // console.log(err);
+        console.log(err);
       },
       onSettled: () => {},
     }
@@ -143,7 +146,8 @@ export default function CategoryPageComponent({
         ourRecordCopy!,
       ],
       selectedCombination,
-      city
+      city,
+      activeQuantity
     );
 
     return {
@@ -151,8 +155,27 @@ export default function CategoryPageComponent({
       marketMinPrice,
       combinationPrice,
       combinationMarketMinPrice,
-      discounts: [],
     };
+  };
+
+  const handleDiscountChange = (
+    index: number,
+    amount?: string,
+    discount?: string
+  ) => {
+    const newDiscounts = [...ourRecordCopy!.discounts];
+    if (!newDiscounts[index]) {
+      newDiscounts[index] = { amount: "", discount: "" };
+    }
+    if (amount || amount?.length === 0) newDiscounts[index].amount = amount;
+    if (discount || discount?.length === 0)
+      newDiscounts[index].discount = discount;
+    setOurRecordCopy((prev) => {
+      return {
+        ...prev!,
+        discounts: newDiscounts,
+      };
+    });
   };
 
   useEffect(() => {
@@ -189,11 +212,22 @@ export default function CategoryPageComponent({
       }),
     };
     setOurRecordCopy(newOurRecord);
+
+    // DISCOUNTS
+    setDiscountsQuantity(() => {
+      const discountList = categoryData.data.flatMap((el) => el.discounts);
+      const discountQuantities: Array<number> = [1];
+      discountList.forEach((el) => {
+        if (!el) return;
+        if (discountQuantities.includes(+el.amount)) return;
+        discountQuantities.push(+el.amount);
+      });
+      return discountQuantities;
+    });
   }, [categoryData]);
 
   useEffect(() => {
     if (!ourRecordCopy) return;
-
     const newOveralData: IRegion = {
       RIGA: getRegionData("RIGA"),
       KURZEME: getRegionData("KURZEME"),
@@ -202,7 +236,7 @@ export default function CategoryPageComponent({
       ZEMGALE: getRegionData("ZEMGALE"),
     };
     setOveralData(newOveralData);
-  }, [ourRecordCopy, selectedCombination]);
+  }, [ourRecordCopy, selectedCombination, activeQuantity]);
 
   return (
     <div className="flex flex-col h-full py-4">
@@ -214,19 +248,30 @@ export default function CategoryPageComponent({
       !overalData ? (
         <SkeletonFrame isLoading={isLoading} isError={isError} />
       ) : (
-        <div className="w-full grid grid-cols-2 flex-1 gap-[4rem]">
+        <div className="w-full flex gap-[4rem] justify-between">
           {ourRecordCopy.options.length > 0 && (
-            <OptionTable
-              data={ourRecordCopy.options}
-              handleOptionPriceChange={handleOptionPriceChange}
-              selectedCombination={selectedCombination}
-              setSelectedCombination={setSelectedCombination}
-            />
+            <div className="w-1/2">
+              <OptionTable
+                data={ourRecordCopy.options}
+                handleOptionPriceChange={handleOptionPriceChange}
+                selectedCombination={selectedCombination}
+                setSelectedCombination={setSelectedCombination}
+              />
+            </div>
           )}
-          <OveralTable
-            data={overalData}
-            handleRegionBasePriceChange={handleRegionBasePriceChange}
-          />
+          <div className="w-1/2">
+            <OveralTable
+              marketDiscountsQuantityList={discountsQuantity}
+              data={overalData}
+              handleRegionBasePriceChange={handleRegionBasePriceChange}
+              activeQuantity={activeQuantity}
+              setActiveQuantity={setActiveQuantity}
+            />
+            <DiscountTable
+              discounts={ourRecordCopy.discounts ?? []}
+              handleDiscountChange={handleDiscountChange}
+            />
+          </div>
         </div>
       )}
     </div>

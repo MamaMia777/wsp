@@ -4,10 +4,16 @@ import { useMemo } from "react";
 interface IProps {
   data: IRegion;
   handleRegionBasePriceChange: (region: keyof IRegion, price: number) => void;
+  marketDiscountsQuantityList: Array<number>;
+  activeQuantity: number;
+  setActiveQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 const OveralTable: React.FC<IProps> = ({
   data,
   handleRegionBasePriceChange,
+  marketDiscountsQuantityList,
+  activeQuantity,
+  setActiveQuantity,
 }) => {
   const memoizedHandleRegionBasePriceChange = useMemo(() => {
     return handleRegionBasePriceChange;
@@ -17,8 +23,7 @@ const OveralTable: React.FC<IProps> = ({
 
   return (
     <div className="w-fit">
-      <h1>Overall</h1>
-      <table className="w-full h-fit">
+      <table className="w-full h-fit mb-2">
         <thead>
           <tr className="border-t border-b">
             {Object.keys(data).map((region) => (
@@ -164,6 +169,14 @@ const OveralTable: React.FC<IProps> = ({
                     ].combinationMarketMinPrice.price.toFixed(2)}
                   </span>
                 </div>
+                <div className="flex gap-3 font-mono  justify-between border-b border-t bg-accent">
+                  <span className="font-bold">%</span>
+                  <span className="text-[black] ml-4">
+                    {data[
+                      region as keyof IRegion
+                    ].combinationMarketMinPrice.discountPerQuantity?.toFixed(2)}
+                  </span>
+                </div>
                 <div className="text-[9px] text-center">
                   {
                     data[region as keyof IRegion].combinationMarketMinPrice
@@ -173,15 +186,29 @@ const OveralTable: React.FC<IProps> = ({
               </td>
             ))}
           </tr>
-          <tr>
-            {[0, 1, 2, 3, 4].map((el) => (
-              <td key={`fake-${el}`} className="font-bold pt-[1rem]">
-                {el === 0 ? "%, DISCOUNTS" : <>&nbsp;</>}
-              </td>
-            ))}
-          </tr>
         </tbody>
       </table>
+
+      <p className="text-[black] font-bold  border-t border-b">QUANTITY</p>
+      <div className="w-full flex gap-2 mt-2">
+        {marketDiscountsQuantityList.map((el, key) => {
+          return (
+            <button
+              key={key}
+              onClick={() => {
+                setActiveQuantity(el);
+              }}
+              className={`w-[50px] h-[50px] border rounded-sm hover:bg-accent ${
+                activeQuantity === el
+                  ? "bg-accent border-[gray]"
+                  : "bg-transparent"
+              }`}
+            >
+              {el}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };
