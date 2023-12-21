@@ -13,6 +13,9 @@ export interface IParseCategoryResult {
   options: Array<IOption>;
   discounts: Array<IDiscount | null>;
 }
+export interface IUpdateEisCategory extends IParseCategoryResult {
+  categoryId: string;
+}
 interface IDiscount {
   amount: string;
   discount: string;

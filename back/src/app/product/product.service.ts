@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { IUpdateEisCategory } from 'src/common/interfaces';
 import { DatabaseService } from 'src/database/database.service';
 import { ParserService } from 'src/parser/parser.service';
 
@@ -19,7 +20,7 @@ export class ProductService {
         const fetchedTime = existingCategory.updateAt;
         const now = new Date();
         const timeDifference = now.getTime() - fetchedTime.getTime();
-        const isOlder = timeDifference / (1000 * 60) > 3;
+        const isOlder = timeDifference / (1000 * 60) > 300000000000;
 
         if (isOlder) {
           try {
@@ -63,6 +64,36 @@ export class ProductService {
     } catch (error) {
       console.error('Error in fetchCategory:', error);
       throw error;
+    }
+  }
+
+  async updateProductInEis(dto: IUpdateEisCategory) {
+    try {
+      const response = await this.parserService.updateCateogryInEis(dto);
+      if (response.status === HttpStatus.OK) {
+        const oldCategoryData = await this.databaseService.category.findUnique({
+          where: { categoryId: dto.categoryId },
+        });
+        const modified = JSON.parse(oldCategoryData.data as string);
+        modified.forEach((company) => {
+          if (company.companyName === dto.companyName) {
+            company.priceList = dto.priceList;
+            company.options = dto.options;
+            company.discounts = dto.discounts;
+          }
+        });
+        const updatedCategory = await this.databaseService.category.update({
+          where: { categoryId: dto.categoryId },
+          data: {
+            data: JSON.stringify(modified),
+            updateAt: new Date(),
+          },
+        });
+        if (!updatedCategory) Logger.log('Failed to save EIS changes in DB');
+        return updatedCategory ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+      }
+    } catch (e) {
+      return HttpStatus.INTERNAL_SERVER_ERROR;
     }
   }
   async getProducts() {

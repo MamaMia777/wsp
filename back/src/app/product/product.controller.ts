@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ProductService } from './product.service';
+import { IUpdateEisCategory } from 'src/common/interfaces';
 
 @Controller('products')
 export class ProductController {
@@ -12,5 +13,9 @@ export class ProductController {
   @Post()
   addProduct(@Body() dto: { categoryId: string }): any {
     return this.productService.fetchCategory(dto.categoryId);
+  }
+  @Post('/eis')
+  updateProductInEis(@Body() dto: IUpdateEisCategory): any {
+    return this.productService.updateProductInEis(dto);
   }
 }

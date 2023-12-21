@@ -1,7 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import puppeteer from 'puppeteer';
 import * as fs from 'fs';
 const SELLERS_PER_PAGE = 50;
+const EIS_CATEGORY_BASE_URL =
+  'https://www.eis.gov.lv/EIS/Categories/SearchFaProducts.aspx?FaNumber=';
 import { ConfigService } from 'src/config/config.service';
 import {
   LOGIN_BUTTON_SELECTOR_ID,
@@ -17,6 +19,7 @@ import {
   IParseCategoryResult,
   IPrice,
   IOption,
+  IUpdateEisCategory,
 } from 'src/common/interfaces';
 @Injectable()
 export class ParserService {
@@ -85,7 +88,7 @@ export class ParserService {
       let productName = '';
       const page = await browser.newPage();
       await this.loginToPage(page);
-      const URL = `https://www.eis.gov.lv/EIS/Categories/SearchFaProducts.aspx?FaNumber=${categoryId}`;
+      const URL = EIS_CATEGORY_BASE_URL.concat(categoryId);
       await page.goto(URL);
       Logger.log(`[INFO] Started parsing category ${categoryId}`);
 
@@ -98,11 +101,9 @@ export class ParserService {
           .textContent.trim();
         return Number(text.match(regex)[1]);
       });
-
       const numberOfPageIterations = Math.ceil(
         numberOfSellers / SELLERS_PER_PAGE,
       );
-
       for (let i = 0; i < numberOfPageIterations; i++) {
         // check for blocked suppliers
         const blockedSuppliersRowIndex = await page.evaluate(() => {
@@ -113,7 +114,6 @@ export class ParserService {
             Number(el.id.match(/_ctl(\d+)_uxIconSupplierFaIsBlocked/)[1]),
           );
         });
-
         for (let k = 2; k <= numberOfSellers - i * SELLERS_PER_PAGE + 1; k++) {
           if (blockedSuppliersRowIndex.includes(k)) continue;
           await this.performPostBack(page, k);
@@ -247,7 +247,117 @@ export class ParserService {
       browser.close();
     }
   }
+  public async updateCateogryInEis(dto: IUpdateEisCategory) {
+    const browser = await puppeteer.launch({
+      headless: 'new',
+      args: ['--no-sandbox'],
+    });
+    try {
+      const page = await browser.newPage();
+      const cookiesString = fs.readFileSync('./cookies.json', 'utf-8');
+      await page.setCookie(...JSON.parse(cookiesString));
+      const URL = EIS_CATEGORY_BASE_URL.concat(dto.categoryId);
+      await page.goto(URL);
+      // Filter our companys, our company is assigned by id = 2668.
+      await page.select(
+        '#ctl00_uxMainContent_uxFilteredProductListControl_uxSupplier',
+        '2668',
+      );
+      await page.click(
+        '#ctl00_uxMainContent_uxFilteredProductListControl_uxFilterButton',
+      );
+      await page.waitForFunction(() => {
+        const tableRows = document.querySelectorAll(
+          '#ctl00_uxMainContent_uxFilteredProductListControl_uxDataView >  tbody > tr',
+        );
+        // Check if there is only 2 rows in the table
+        return tableRows.length === 2;
+      });
+      await this.performPostBack(page, 2);
 
+      // wait for category edit popup to load
+      await page.waitForSelector(
+        '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxProductEditPopupPanel',
+      );
+      // Region prices
+      dto.priceList.forEach((price, index) => {
+        const selector = `#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxPriceList_ctl0${
+          index + 2
+        }_uxPrice`;
+        page.$eval(
+          selector,
+          (input, newValue) => ((input as HTMLInputElement).value = newValue),
+          price.price.toString(),
+        );
+      });
+      // Discounts
+      dto.discounts.forEach((discount, index) => {
+        if (!discount) return;
+        const quantitySelector = `#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxDiscounts_ctl0${
+          index + 2
+        }_uxCount`;
+
+        const discountSelector = `#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxDiscounts_ctl0${
+          index + 2
+        }_uxDiscount`;
+
+        page.$eval(
+          quantitySelector,
+          (input, newValue) => ((input as HTMLInputElement).value = newValue),
+          discount.amount.toString(),
+        );
+        page.$eval(
+          discountSelector,
+          (input, newValue) => ((input as HTMLInputElement).value = newValue),
+          discount.discount.toString(),
+        );
+      });
+
+      // Options
+      const inputIds = await page.evaluate(() => {
+        const textInputElements = Array.from(
+          document.querySelectorAll(
+            '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxEquipmentPriceListRow input[type="text"]',
+          ),
+        );
+        return textInputElements.map((input) => input.id);
+      });
+      const flattendOptions = [];
+      dto.options.forEach((option) => {
+        if (option.subOptions) {
+          flattendOptions.push(...option.subOptions);
+        } else {
+          flattendOptions.push(option);
+        }
+      });
+      flattendOptions.forEach((option, index) => {
+        const selector = `#${inputIds[index]}`;
+        page.$eval(
+          selector,
+          (input, newValue) => ((input as HTMLInputElement).value = newValue),
+          option.price.toString(),
+        );
+      });
+
+      // Click save
+      await page.click(
+        '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxSaveButton',
+      );
+      await page.waitForFunction(
+        (selector) => !document.querySelector(selector),
+        {},
+        '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxPopupContent',
+      );
+      return {
+        status: HttpStatus.OK,
+      };
+    } catch (e) {
+      Logger.error('Error updating category', e.message);
+      throw new HttpException('Failed to update category in EIS system.', 202);
+    } finally {
+      browser.close();
+    }
+  }
   private async performPostBack(page: any, index: number) {
     const indexString = index < 10 ? `0${index}` : `${index}`;
     await page.evaluate((indexString) => {
