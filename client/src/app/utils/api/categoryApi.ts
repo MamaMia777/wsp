@@ -8,6 +8,12 @@ export const categoryApi = (instance: AxiosInstance) => ({
     );
     return data;
   },
+  async deleteCategory(categoryId: string) {
+    const { data }= await instance.delete<null, {data: any}>(
+      `/products/${categoryId}`,
+    );
+    return data;
+  },
   async updateCategoryInEis(data: IChangeEisData) {
     const { data: responseData } = await instance.post<IChangeEisData, any>(
       '/products/eis',

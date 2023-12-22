@@ -27,6 +27,19 @@ export class ProductService {
       throw new InternalServerErrorException('Failed to reset changeAttempts');
     }
   }
+  async deleteCategory(categoryId: string) {
+    try {
+      const deletedCategory = await this.databaseService.category.delete({
+        where: { categoryId: categoryId },
+      });
+      return deletedCategory;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Failed to delete category',
+        categoryId,
+      );
+    }
+  }
   async fetchCategory(categoryId: string) {
     try {
       const existingCategory = await this.databaseService.category.findUnique({

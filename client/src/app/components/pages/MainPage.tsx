@@ -75,6 +75,7 @@ const MainPage = () => {
                 name={el.name}
                 key={el.categoryId}
                 categoryId={el.categoryId}
+                refetch={refetch}
               />
             ))}
         </div>

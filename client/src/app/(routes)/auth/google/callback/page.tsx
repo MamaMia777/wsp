@@ -13,6 +13,7 @@ const Social = () => {
       Api()
         .usersApi.googleLogin(code)
         .then(() => {
+          // console.log(res);
           history.push("/");
         });
     }
