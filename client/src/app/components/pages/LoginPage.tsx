@@ -16,7 +16,7 @@ const LoginPage = () => {
       style={{ position: "fixed" }}
     >
       <div className="bg-[#18181b] p-5 flex flex-col justify-between">
-        <div className="flex items-center gap-4 text-[1.3rem] text-[white]">
+        <div className="flex items-center gap-4 text-[1.3rem] text-[white] loginButton">
           <svg
             width="30"
             height="30"
@@ -34,11 +34,11 @@ const LoginPage = () => {
           <span>wsp</span>
         </div>
       </div>
-      <div className="px-[2rem] flex flex-col items-left justify-center">
+      <div className="px-[2rem] flex flex-col items-left justify-center animate-slide loginButton">
         <h1>Sign in</h1>
         <button
           onClick={handleGoogleLogin}
-          className="bg-accent flex w-fit items-center gap-2 px-4 py-2 rounded-md mt-2"
+          className="bg-accent flex w-fit items-center gap-2 px-4 py-2 rounded-md mt-5 hover:bg-[#18181b] hover:text-[white] transition-all duration-150 "
         >
           <Image
             src={"/google.png"}

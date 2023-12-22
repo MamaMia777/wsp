@@ -241,6 +241,7 @@ export default function CategoryPageComponent({
         categoryId={categoryId}
         name={categoryData?.name ?? ""}
         ourRecordData={ourRecordCopy!}
+        changeAttempts={categoryData?.changeAttempts ?? -1}
       />
       {isLoading ||
       isError ||

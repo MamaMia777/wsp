@@ -39,10 +39,18 @@ export class AuthService {
         photo: profileData.picture,
       };
 
+      console.log(userProfile);
+
       const userFound = await this.databaseService.user.findUnique({
         where: { email: userProfile.email },
       });
       if (userFound) {
+        await this.databaseService.user.update({
+          where: { email: userProfile.email },
+          data: {
+            imageUrl: userProfile?.photo ?? '',
+          },
+        });
         return this.jwtService.generateToken(userFound, '1y');
       } else {
         throw new NotFoundException('User not found');
@@ -73,8 +81,8 @@ export class AuthService {
       access_type: 'offline',
       prompt: 'consent',
       scope: scopes,
-      // redirect_uri: 'http://localhost:3000/auth/google/callback',
-      redirect_uri: 'https://wsp.company/auth/google/callback',
+      redirect_uri: 'http://localhost:3000/auth/google/callback',
+      // redirect_uri: 'https://wsp.company/auth/google/callback',
     });
   }
 }

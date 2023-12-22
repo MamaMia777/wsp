@@ -8,12 +8,14 @@ interface IProps {
   categoryId: string;
   name: string;
   ourRecordData: ISupplierData;
+  changeAttempts: number;
 }
 
 const CategoryHeader: React.FC<IProps> = ({
   categoryId,
   name,
   ourRecordData,
+  changeAttempts,
 }) => {
   const { mutate, isLoading, isError } = useMutation(
     () =>
@@ -65,9 +67,10 @@ const CategoryHeader: React.FC<IProps> = ({
       <Button
         className="h-[50px] justify-end align-bottom"
         onClick={handleSaveChanges}
+        disabled={changeAttempts <= 0}
       >
         <Image src="/ui/MagicWand.svg" width={20} height={20} alt="magicwand" />
-        <span>Save changes (5)</span>
+        <span>Save changes ({changeAttempts})</span>
       </Button>
     );
   };

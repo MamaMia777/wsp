@@ -1,4 +1,10 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { Prisma } from '@prisma/client';
 import { IUpdateEisCategory } from 'src/common/interfaces';
 import { DatabaseService } from 'src/database/database.service';
@@ -10,6 +16,17 @@ export class ProductService {
     private readonly parserService: ParserService,
     private readonly databaseService: DatabaseService,
   ) {}
+
+  @Cron('0 0 * * *')
+  async resetChangeAttempts() {
+    try {
+      await this.databaseService.category.updateMany({
+        data: { changeAttempts: 5 },
+      });
+    } catch (e) {
+      throw new InternalServerErrorException('Failed to reset changeAttempts');
+    }
+  }
   async fetchCategory(categoryId: string) {
     try {
       const existingCategory = await this.databaseService.category.findUnique({

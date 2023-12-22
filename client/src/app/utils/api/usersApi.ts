@@ -8,13 +8,35 @@ export const usersApi = (instance: AxiosInstance) => ({
     );
     return data;
   },
+
+
   async deleteUser(email: string) {
-    const { data } = await instance.delete<null, {data: IUser}>(
+    const { data: deleted } = await instance.delete<null, {data: IUser}>(
       `/users`,
+      {
+        data: {email}
+      }
     );
-    {
-      email
-    }
+    return deleted;
+  },
+  async grantAdminRights(email: string) {
+    const { data: updated } = await instance.patch<null, {data: IUser}>(
+      `/users`,
+      {
+        email: email,
+        role: 'ADMIN'
+      }
+    );
+    return updated;
+  },
+  async createUser(email: string) {
+    const { data } = await instance.post<null, {data: IUser}>(
+      `/users`,
+      {
+        email,
+        role: 'USER'
+      }
+    );
     return data;
   },
   async getGoogleLoginLink(): Promise<string>{

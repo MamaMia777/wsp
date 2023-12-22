@@ -31,7 +31,11 @@ main > section > div {
   animation: showup 0.5s ease forwards;
 }
 
-
+.loginButton{
+  opacity: 0;
+  transform: translateY(-100%);
+  animation: showup .7s ease forwards;
+}
 @keyframes showup {
   to {
     opacity: 1;

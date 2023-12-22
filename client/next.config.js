@@ -2,12 +2,7 @@
 const nextConfig = {
     reactStrictMode: false,
     images: {
-        remotePatterns: [{
-            protocol: 'https',
-            hostname: 'avatar.iran.liara.run',
-            port: '',
-            pathname: '/public/**',
-        }]
+        domains: ['lh3.googleusercontent.com', 'avatar.iran.liara.run'],
     }
 }
 

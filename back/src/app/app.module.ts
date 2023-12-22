@@ -11,6 +11,7 @@ import { UserModule } from './users/user.module';
 import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from 'src/common/jwt/jwt.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtModule } from 'src/common/jwt/jwt.module';
     UserModule,
     AuthModule,
     JwtModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService, ParserService, JwtService],

@@ -5,6 +5,7 @@ export interface ICategoryBasic {
 }
 export interface ICategoryFull {
   categoryId: string;
+  changeAttempts: number;
   name: string;
   productId: string;
   updateAt: Date;

@@ -11,6 +11,7 @@ export class UserService {
       select: {
         email: true,
         role: true,
+        imageUrl: true,
       },
     });
   }

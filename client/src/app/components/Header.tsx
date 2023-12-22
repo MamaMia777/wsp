@@ -2,6 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
+import { UserContext } from "./providers/UserProvider";
 
 const LINKS = [
   { label: "Overview", href: "" },
@@ -10,6 +12,7 @@ const LINKS = [
 
 const Header = () => {
   const path = usePathname();
+  const localUser = React.useContext(UserContext);
   const hideHeader =
     path.split("/").reverse()[0] === "login" ||
     path.split("/").reverse()[0] === "/signup";
@@ -35,9 +38,14 @@ const Header = () => {
           </div>
           <div>
             <Image
-              src={"https://avatar.iran.liara.run/public/22"}
+              src={
+                localUser
+                  ? localUser.imageUrl
+                  : "https://avatar.iran.liara.run/public/22"
+              }
               width={40}
               height={40}
+              className="rounded-md"
               alt="wsp"
             />
           </div>

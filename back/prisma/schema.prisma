@@ -36,6 +36,7 @@ enum Role {
 model User {
   email     String   @id @unique
   role      Role     @default(USER)
+  imageUrl  String   @default("https://lh3.googleusercontent.com/a/ACg8ocKuVSXUPIdR66Oe1m5r9AowUsvj1qFLfWqc3uQjMz3xwA=s96-c")
   createdAt DateTime @default(now())
 
   @@map(name: "users")
