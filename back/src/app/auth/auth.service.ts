@@ -81,8 +81,8 @@ export class AuthService {
       access_type: 'offline',
       prompt: 'consent',
       scope: scopes,
-      redirect_uri: 'http://localhost:3000/auth/google/callback',
-      // redirect_uri: 'https://wsp.company/auth/google/callback',
+      // redirect_uri: 'http://localhost:3000/auth/google/callback',
+      redirect_uri: 'https://wsp.company/auth/google/callback',
     });
   }
 }
