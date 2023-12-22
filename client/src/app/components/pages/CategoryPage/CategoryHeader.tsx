@@ -63,16 +63,23 @@ const CategoryHeader: React.FC<IProps> = ({
         </Button>
       );
     if (isError) return <div className="bg-[red] text-[white]">ERROR</div>;
-    return (
-      <Button
-        className="h-[50px] justify-end align-bottom"
-        onClick={handleSaveChanges}
-        disabled={changeAttempts <= 0}
-      >
-        <Image src="/ui/MagicWand.svg" width={20} height={20} alt="magicwand" />
-        <span>Save changes ({changeAttempts})</span>
-      </Button>
-    );
+
+    if (changeAttempts > 0)
+      return (
+        <Button
+          className="h-[50px] justify-end align-bottom"
+          onClick={handleSaveChanges}
+          disabled={changeAttempts <= 0}
+        >
+          <Image
+            src="/ui/MagicWand.svg"
+            width={20}
+            height={20}
+            alt="magicwand"
+          />
+          <span>Save changes ({changeAttempts})</span>
+        </Button>
+      );
   };
 
   const handleSaveChanges = () => {
@@ -95,6 +102,13 @@ const CategoryHeader: React.FC<IProps> = ({
               alt="wsp"
             />
           </Link>
+          <Image
+            src={"/ui/Horizontal.svg"}
+            width={15}
+            height={15}
+            alt="wsp"
+            className="cursor-pointer hover:scale-110"
+          />
         </div>
         {name.length > 0 ? (
           <p className="mt-2 text-medium">{name}</p>
