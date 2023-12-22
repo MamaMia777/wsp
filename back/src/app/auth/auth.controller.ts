@@ -39,8 +39,8 @@ export class AuthController {
       signed: true,
       expires: date,
       secure: false,
-      domain: '.localhost',
-      // domain: '.wsp.company',
+      // domain: '.localhost',
+      domain: '.wsp.company',
       httpOnly: false,
       path: '/',
     });
