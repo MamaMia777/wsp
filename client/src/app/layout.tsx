@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import Provider from "./utils/Providers";
+import { UserProvider } from "./components";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} h-screen`}>
-        <Provider>
-          <main className=" text-primary font-medium text-small">
-            <Header />
-            <section>{children}</section>
-          </main>
-        </Provider>
+        <UserProvider>
+          <Provider>
+            <main className=" text-primary font-medium text-small">
+              <Header />
+              <section>{children}</section>
+            </main>
+          </Provider>
+        </UserProvider>
       </body>
     </html>
   );

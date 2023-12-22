@@ -87,6 +87,9 @@ export class ProductService {
           data: {
             data: JSON.stringify(modified),
             updateAt: new Date(),
+            changeAttempts: {
+              decrement: 1,
+            },
           },
         });
         if (!updatedCategory) Logger.log('Failed to save EIS changes in DB');

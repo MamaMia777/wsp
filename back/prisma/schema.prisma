@@ -18,11 +18,12 @@ model Config {
 }
 
 model Category {
-  categoryId String   @unique
-  productId  String
-  name       String?
-  data       Json
-  updateAt   DateTime @default(now())
+  categoryId     String   @unique
+  productId      String
+  name           String?
+  data           Json
+  updateAt       DateTime @default(now())
+  changeAttempts Int      @default(5)
 
   @@map(name: "categories")
 }

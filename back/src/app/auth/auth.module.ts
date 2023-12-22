@@ -1,18 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { GoogleStrategy } from './utils/GoogleStrategy';
 import { AuthService } from './auth.service';
-import { SessionSerializer } from './utils/Serializer';
+import { AuthController } from './auth.controller';
+import { JwtModule } from 'src/common/jwt/jwt.module';
 
 @Module({
+  imports: [JwtModule],
   controllers: [AuthController],
-  providers: [
-    GoogleStrategy,
-    SessionSerializer,
-    {
-      provide: 'AUTH_SERVICE',
-      useClass: AuthService,
-    },
-  ],
+  providers: [AuthService],
 })
 export class AuthModule {}

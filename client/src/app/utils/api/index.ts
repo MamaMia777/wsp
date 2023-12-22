@@ -1,4 +1,4 @@
-import axios, { AxiosRequestHeaders } from 'axios';
+import axios from 'axios';
 import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { categoryApi } from './categoryApi';
 import { usersApi } from './usersApi';
@@ -9,10 +9,10 @@ export type ApiReturnType = {
 };
 const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiReturnType => {
   const instance = axios.create({
-      baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api/' : 'https://api.wsp.company/api/',
+      baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3001/' : 'https://api.wsp.company/',
       headers: {
       },
-      withCredentials: false
+      withCredentials: true
     })
 
   const api = {

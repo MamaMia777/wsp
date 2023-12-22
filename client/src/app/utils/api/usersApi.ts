@@ -16,5 +16,24 @@ export const usersApi = (instance: AxiosInstance) => ({
       email
     }
     return data;
+  },
+  async getGoogleLoginLink(): Promise<string>{
+    const { data } = await instance.get<null, {data: any}>(
+      '/auth/social/google/link',
+    );
+    return data;
+  },
+  async getMe(): Promise<any>{
+    const { data } = await instance.get<null, {data: any}>(
+      '/auth',
+    );
+    return data;
+  },
+  async googleLogin(code: string) {
+    const { data } = await instance.post<null, {data: any}>(
+      `auth/social/google/login?code=${code}`,
+    );
+    return data;
+    
   }
 });

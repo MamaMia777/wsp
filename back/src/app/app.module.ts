@@ -7,10 +7,10 @@ import { ConfigService } from '../config/config.service';
 import { ParserModule } from '../parser/parser.module';
 import { ParserService } from '../parser/parser.service';
 import { ProductModule } from './product/product.module';
-import { AuthModule } from './auth/auth.module';
-import { GatewayModule } from './gateway/gateway.module';
-import { PassportModule } from '@nestjs/passport';
 import { UserModule } from './users/user.module';
+import { JwtService } from '@nestjs/jwt';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from 'src/common/jwt/jwt.module';
 
 @Module({
   imports: [
@@ -19,12 +19,11 @@ import { UserModule } from './users/user.module';
     ConfigModule,
     ParserModule,
     ProductModule,
-    AuthModule,
-    GatewayModule,
-    PassportModule.register({ session: true }),
     UserModule,
+    AuthModule,
+    JwtModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ConfigService, ParserService],
+  providers: [AppService, ConfigService, ParserService, JwtService],
 })
 export class AppModule {}

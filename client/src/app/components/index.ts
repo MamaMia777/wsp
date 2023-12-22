@@ -4,6 +4,7 @@ import { Popup } from "./Popup";
 import { MainPage, SettingPage } from "./pages";
 import DataTable from "./DataTable";
 export * from './modals'
+export * from './providers'
 export {
     Header,
     CategoryCard,
