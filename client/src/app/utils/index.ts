@@ -77,7 +77,7 @@ export const findMinimalCombinationPrice = (
       // const singleOptionSum = supplier.options.filter((el) => !el.subOptions).reduce((acc, el) => acc + el.price!, 0);
       totalCombinationPrice += basePrice;
 
-      const discountPerQuantity = supplier.discounts.find((el) => el && +el.amount === quantity)?.discount ?? 0;
+      const discountPerQuantity = supplier.discounts.filter((el) => el && +el.amount <= quantity).reverse()[0]?.discount ?? 0;
   
       for (const option of combination) {
         const [parentId, childrenId] = option;
