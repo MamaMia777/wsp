@@ -9,6 +9,7 @@ interface IProps {
   name: string;
   ourRecordData: ISupplierData;
   changeAttempts: number;
+  parseCategory: any;
 }
 
 const CategoryHeader: React.FC<IProps> = ({
@@ -16,6 +17,7 @@ const CategoryHeader: React.FC<IProps> = ({
   name,
   ourRecordData,
   changeAttempts,
+  parseCategory,
 }) => {
   const { mutate, isLoading, isError } = useMutation(
     () =>
@@ -25,7 +27,7 @@ const CategoryHeader: React.FC<IProps> = ({
       }),
     {
       onSuccess: (data) => {
-        console.log("success");
+        parseCategory();
       },
       onError: (err) => {
         console.log(err);

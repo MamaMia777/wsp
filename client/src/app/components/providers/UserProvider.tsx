@@ -14,7 +14,7 @@ export default function UserProvider({ children }: { children: JSX.Element }) {
         .usersApi.getMe()
         .then((res) => {
           setUser(res);
-          history.push("/");
+          // history.push("/");
         })
         .catch((err) => {
           history.push("/login");

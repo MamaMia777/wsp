@@ -79,7 +79,11 @@ export default function CategoryPageComponent({
     Array<ISelectedCombination>
   >([]);
 
-  const { mutate, isLoading, isError } = useMutation(
+  const {
+    mutate: parseCategory,
+    isLoading,
+    isError,
+  } = useMutation(
     () => Api().categories.fetchCategory(categoryId.toUpperCase()),
     {
       onSuccess: (data) => {
@@ -175,7 +179,7 @@ export default function CategoryPageComponent({
   };
 
   useEffect(() => {
-    mutate();
+    parseCategory();
   }, [categoryId]);
 
   useEffect(() => {
@@ -242,6 +246,7 @@ export default function CategoryPageComponent({
         name={categoryData?.name ?? ""}
         ourRecordData={ourRecordCopy!}
         changeAttempts={categoryData?.changeAttempts ?? -1}
+        parseCategory={parseCategory}
       />
       {isLoading ||
       isError ||
