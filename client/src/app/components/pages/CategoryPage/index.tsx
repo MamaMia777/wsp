@@ -185,8 +185,13 @@ export default function CategoryPageComponent({
   useEffect(() => {
     if (!categoryData) return;
     console.log(categoryData);
-    const ourRecord = categoryData.data.find((el) =>
-      el.companyName.toLowerCase().includes("wsp")
+    const ourRecord = categoryData.data.find(
+      (el) =>
+        el.companyName.toLowerCase().includes("wsp") ||
+        el.companyName.toLowerCase().includes("meta-regalbau") ||
+        el.companyName.toLowerCase().includes("uab plieno studija") ||
+        el.companyName.toLowerCase().includes("cubestyle") ||
+        el.companyName.toLowerCase().includes("glassvan")
     );
     if (!ourRecord) return;
     const newOurRecord = {
@@ -228,7 +233,9 @@ export default function CategoryPageComponent({
   }, [categoryData]);
 
   useEffect(() => {
-    if (!ourRecordCopy) return;
+    if (!ourRecordCopy) {
+      return;
+    }
     const newOveralData: IRegion = {
       RIGA: getRegionData("RIGA"),
       KURZEME: getRegionData("KURZEME"),
