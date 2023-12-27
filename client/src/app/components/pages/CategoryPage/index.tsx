@@ -185,13 +185,8 @@ export default function CategoryPageComponent({
   useEffect(() => {
     if (!categoryData) return;
     console.log(categoryData);
-    const ourRecord = categoryData.data.find(
-      (el) =>
-        el.companyName.toLowerCase().includes("wsp") ||
-        el.companyName.toLowerCase().includes("meta-regalbau") ||
-        el.companyName.toLowerCase().includes("uab plieno studija") ||
-        el.companyName.toLowerCase().includes("cubestyle") ||
-        el.companyName.toLowerCase().includes("glassvan")
+    const ourRecord = categoryData.data.find((el) =>
+      el.companyName.toLowerCase().includes("wsp")
     );
     if (!ourRecord) return;
     const newOurRecord = {

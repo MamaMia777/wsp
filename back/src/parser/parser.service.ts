@@ -105,7 +105,13 @@ export class ParserService {
         numberOfSellers / SELLERS_PER_PAGE,
       );
       for (let i = 0; i < numberOfPageIterations; i++) {
-        // check for blocked suppliers
+        const supplierNames = await page.evaluate(() => {
+          const rows = document.querySelectorAll(
+            '#ctl00_uxMainContent_uxFilteredProductListControl_uxDataView > tbody > tr:not(.contenttablehead) > td:nth-child(3)',
+          );
+          return Array.from(rows).map((el) => el.textContent.trim());
+        });
+
         const blockedSuppliersRowIndex = await page.evaluate(() => {
           const rows = document.querySelectorAll(
             '[id$=_uxIconSupplierFaIsBlocked]',
@@ -118,13 +124,7 @@ export class ParserService {
           if (blockedSuppliersRowIndex.includes(k)) continue;
           await this.performPostBack(page, k);
           await page.waitForNavigation();
-          const companyName = await page.evaluate(() => {
-            return document
-              .querySelector(
-                '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxManufacturer',
-              )
-              ?.textContent.trim();
-          });
+          const companyName = supplierNames[k - 2];
           if (productId.length === 0) {
             productId = await page.evaluate(() => {
               return document
