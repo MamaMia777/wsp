@@ -295,6 +295,7 @@ export class ParserService {
         const tableRows = document.querySelectorAll(
           '#ctl00_uxMainContent_uxFilteredProductListControl_uxDataView >  tbody > tr',
         );
+        Logger.debug("len: ", tableRows.length);
         // Check if there is only 2 rows in the table
         return tableRows.length === 2;
       });
