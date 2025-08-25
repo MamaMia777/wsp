@@ -48,11 +48,11 @@ export class ParserService {
       }
       await page.click(LOGIN_BUTTON_SELECTOR_ID);
 
-      await page.waitForSelector("ctl00_uxAuthenticationBlock_uxLoginFormTable");
+      await page.waitForSelector("#ctl00_uxAuthenticationBlock_uxLoginFormTable");
 
-      await page.click("ctl00_uxAuthenticationBlock_uxLoginByLoginPassword");
+      await page.click("#ctl00_uxAuthenticationBlock_uxLoginByLoginPassword");
 
-      await page.waitForSelector("ctl00_uxAuthenticationBlock_uxLoginUpdatePanel");
+      await page.waitForSelector("#ctl00_uxAuthenticationBlock_uxLoginUpdatePanel");
 
       await page.type(
         LOGIN_USERNAME_INPUT_SELECTOR_ID,
