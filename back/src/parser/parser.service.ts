@@ -290,15 +290,16 @@ export class ParserService {
       await page.click(
         '#ctl00_uxMainContent_uxFilteredProductListControl_uxFilterButton',
       );
+      await page.waitForSelector("#ctl00_uxMainContent_uxFilteredProductListControl_uxDataView");
       Logger.debug("Cloicked our company to edit category");
-      await page.waitForFunction(() => {
-        const tableRows = document.querySelectorAll(
-          '#ctl00_uxMainContent_uxFilteredProductListControl_uxDataView >  tbody > tr',
-        );
-        Logger.debug("len: ", tableRows.length);
-        // Check if there is only 2 rows in the table
-        return tableRows.length === 2;
-      });
+      // await page.waitForFunction(() => {
+      //   const tableRows = document.querySelectorAll(
+      //     '#ctl00_uxMainContent_uxFilteredProductListControl_uxDataView >  tbody > tr',
+      //   );
+      //   Logger.debug("len: ", tableRows.length);
+      //   // Check if there is only 2 rows in the table
+      //   return tableRows.length === 2;
+      // });
       Logger.debug("Waited for table to load");
       await this.performPostBack(page, 2);
 
