@@ -286,9 +286,11 @@ export class ParserService {
         '#ctl00_uxMainContent_uxFilteredProductListControl_uxSupplier',
         '2668',
       );
+      Logger.debug("Selected our company to edit category");
       await page.click(
         '#ctl00_uxMainContent_uxFilteredProductListControl_uxFilterButton',
       );
+      Logger.debug("Cloicked our company to edit category");
       await page.waitForFunction(() => {
         const tableRows = document.querySelectorAll(
           '#ctl00_uxMainContent_uxFilteredProductListControl_uxDataView >  tbody > tr',
@@ -296,12 +298,14 @@ export class ParserService {
         // Check if there is only 2 rows in the table
         return tableRows.length === 2;
       });
+      Logger.debug("Waited for table to load");
       await this.performPostBack(page, 2);
 
       // wait for category edit popup to load
       await page.waitForSelector(
         '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxProductEditPopupPanel',
       );
+        Logger.debug("Category edit popup loaded");
       // Region prices
       dto.priceList.forEach((price, index) => {
         const selector = `#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxPriceList_ctl0${
@@ -366,6 +370,7 @@ export class ParserService {
       await page.click(
         '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxSaveButton',
       );
+      Logger.debug("Clicked save button");
       await page.waitForFunction(
         (selector) => !document.querySelector(selector),
         {},
