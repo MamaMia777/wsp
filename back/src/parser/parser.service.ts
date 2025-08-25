@@ -29,9 +29,15 @@ export class ParserService {
     const url = 'https://www.eis.gov.lv';
 
     try {
-      const cookiesString = fs.readFileSync('./cookies.json', 'utf-8');
+        const cookiesPath = './cookies.json';
+        let cookiesString = '';
       const credentialsConfig = await this.configService.getConfig();
-      await page.setCookie(...JSON.parse(cookiesString));
+        if (fs.existsSync(cookiesPath)) {
+            cookiesString = fs.readFileSync(cookiesPath, 'utf-8');
+        }
+        if (cookiesString) {
+            await page.setCookie(...JSON.parse(cookiesString));
+        }
       await page.goto(url);
       const lb = await page.$(LOGIN_BUTTON_SELECTOR_ID);
       if (!lb) {
@@ -41,6 +47,13 @@ export class ParserService {
         Logger.log('Logging in');
       }
       await page.click(LOGIN_BUTTON_SELECTOR_ID);
+
+      await page.waitForSelector("ctl00_uxAuthenticationBlock_uxLoginFormTable");
+
+      await page.click("ctl00_uxAuthenticationBlock_uxLoginByLoginPassword");
+
+      await page.waitForSelector("ctl00_uxAuthenticationBlock_uxLoginUpdatePanel");
+
       await page.type(
         LOGIN_USERNAME_INPUT_SELECTOR_ID,
         credentialsConfig.login,
