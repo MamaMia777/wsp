@@ -52,8 +52,18 @@ export class ParserService {
 
       await page.click("#ctl00_uxAuthenticationBlock_uxLoginByLoginPassword");
 
+      // save html to file
+        fs.writeFileSync(
+            'page-after_click.html',
+            await page.content(),
+            );
+
       await page.waitForSelector("#ctl00_uxAuthenticationBlock_uxLoginUpdatePanel");
 
+        fs.writeFileSync(
+            'page-ux_login.html',
+            await page.content(),
+        );
       await page.type(
         LOGIN_USERNAME_INPUT_SELECTOR_ID,
         credentialsConfig.login,
