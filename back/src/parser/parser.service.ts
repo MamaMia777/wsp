@@ -308,6 +308,11 @@ export class ParserService {
         '#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxProductEditPopupPanel',
       );
         Logger.debug("Category edit popup loaded");
+      //   save to file
+        fs.writeFileSync(
+            'page-category-edit.html',
+            await page.content(),
+        );
       // Region prices
       dto.priceList.forEach((price, index) => {
         const selector = `#ctl00_uxMainContent_uxFilteredProductListControl_uxProductEditControl_uxPriceList_ctl0${
